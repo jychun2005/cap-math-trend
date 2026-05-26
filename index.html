@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>國中教育會考數學科—近五年出題趨勢分析</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+  <style>
+    :root {
+      --accent:  #e8643a;
+      --accent2: #4fc3f7;
+      --success: #81c784;
+      --warn:    #ffb74d;
+    }
+    .reveal { font-family: 'Segoe UI', 'Noto Sans TC', sans-serif; }
+    .reveal h1, .reveal h2, .reveal h3 { font-family: 'Segoe UI', 'Noto Sans TC', sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+    .reveal h1 { font-size: 2.2em; }
+    .reveal h2 { font-size: 1.5em; color: var(--accent2); }
+    .reveal .progress { color: var(--accent); }
+    .reveal .fragment { opacity: 0.2; }
+    .reveal .fragment.visible { opacity: 1; }
+    .title-slide { text-align: center; }
+    .title-slide .tag { display: inline-block; background: var(--accent); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.55em; letter-spacing: 0.08em; margin-bottom: 0.8em; font-weight: 600; }
+    .title-slide .subtitle { font-size: 0.75em; color: #aaa; margin-top: 0.5em; }
+    .title-slide .author { margin-top: 2em; font-size: 0.5em; color: #888; }
+    .stat-row { display: flex; gap: 20px; justify-content: center; margin-top: 1em; }
+    .stat-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px 26px; text-align: center; flex: 1; }
+    .stat-card .num { font-size: 1.8em; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-card .label { font-size: 0.42em; color: #ccc; margin-top: 6px; }
+    .stat-card .pct { font-size: 0.7em; font-weight: 700; color: var(--accent2); margin-top: 4px; }
+    .adv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 0.6em; }
+    .adv-card { background: rgba(255,255,255,0.05); border-top: 4px solid var(--accent2); border-radius: 8px; padding: 16px; text-align: center; }
+    .adv-card .adv-icon { margin-bottom: 8px; font-size: 1.4em; }
+    .adv-card .adv-title { font-size: 0.5em; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+    .adv-card .adv-desc { font-size: 0.4em; color: #bbb; line-height: 1.6; }
+    .adv-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 0.6em; }
+    .adv-grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 0.6em; }
+    .vs-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: start; margin-top: 0.6em; }
+    .vs-col { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 18px; }
+    .vs-col.left-col { border-top: 3px solid var(--accent2); }
+    .vs-col.right-col { border-top: 3px solid var(--warn); }
+    .vs-label { font-size: 0.7em; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.05em; }
+    .vs-label.left { color: var(--accent2); }
+    .vs-label.right { color: var(--warn); }
+    .vs-center { display: flex; align-items: center; justify-content: center; font-size: 1.4em; font-weight: 900; color: #555; }
+    .vs-col ul { font-size: 0.42em; list-style: none; padding: 0; margin: 0; }
+    .vs-col ul li { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .vs-col ul li:last-child { border-bottom: none; }
+    .vs-col ul li::before { content: "✦ "; opacity: 0.5; }
+    .timeline { position: relative; padding-left: 36px; margin-top: 0.8em; }
+    .timeline::before { content: ''; position: absolute; left: 14px; top: 4px; bottom: 4px; width: 2px; background: rgba(255,255,255,0.2); }
+    .timeline-item { position: relative; margin-bottom: 18px; font-size: 0.46em; }
+    .timeline-item::before { content: ''; position: absolute; left: -28px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid #1a1a2e; }
+    .timeline-item .ti-date { color: var(--accent); font-weight: 700; font-size: 1.1em; margin-bottom: 2px; }
+    .timeline-item .ti-text { color: #ccc; }
+    .conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 0.8em; }
+    .conclusion-card { border-radius: 10px; padding: 18px; font-size: 0.44em; }
+    .conclusion-card.positive { background: rgba(79,195,247,0.12); border: 1px solid rgba(79,195,247,0.35); }
+    .conclusion-card.caution { background: rgba(255,183,77,0.1); border: 1px solid rgba(255,183,77,0.3); }
+    .conclusion-card.success { background: rgba(129,199,132,0.1); border: 1px solid rgba(129,199,132,0.3); }
+    .conclusion-card .cc-title { font-size: 1.3em; font-weight: 700; margin-bottom: 8px; }
+    .conclusion-card.positive .cc-title { color: var(--accent2); }
+    .conclusion-card.caution .cc-title { color: var(--warn); }
+    .conclusion-card.success .cc-title { color: var(--success); }
+    .conclusion-card ul { list-style: none; padding: 0; margin: 0; color: #ccc; line-height: 1.8; }
+    .conclusion-card ul li::before { content: "→ "; opacity: 0.6; }
+    .end-slide { text-align: center; }
+    .end-slide .big { font-size: 3em; margin-bottom: 0.2em; }
+    .end-slide .tagline { font-size: 0.65em; color: #aaa; }
+    .content-list { font-size: 0.46em; color: #ccc; line-height: 2; }
+    .content-list li { margin-bottom: 6px; }
+    .tag-highlight { display: inline-block; background: rgba(232,100,58,0.2); color: var(--accent); padding: 2px 10px; border-radius: 12px; font-weight: 700; font-size: 0.85em; }
+    .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 0.6em; }
+    .col-2-left { text-align: left; }
+    .col-2-right { text-align: left; }
+    .year-badge { display: inline-block; background: rgba(79,195,247,0.15); color: var(--accent2); padding: 1px 8px; border-radius: 8px; font-size: 0.75em; margin-right: 4px; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ========== Slide 1: 封面 ========== -->
+    <section data-background-color="#0d1117">
+      <div class="title-slide">
+        <div class="tag">110年~114年 (2021~2025) · 趨勢分析</div>
+        <h1>國中教育會考數學科</h1>
+        <h2 style="color:var(--accent); margin-top:0.2em;">近五年出題趨勢分析</h2>
+        <p class="subtitle">從 5 年試卷看命題方向演變 — 幾何蟬聯核心、素養題逐年增加</p>
+        <p class="author">資料來源：CAP 國中教育會考官方試題 · 2026 年 5 月</p>
+      </div>
+    </section>
+
+    <!-- ========== Slide 2: 試卷結構變化 [VIZ] ========== -->
+    <section>
+      <h2>試卷結構變化</h2>
+      <div class="vs-grid fragment">
+        <div class="vs-col left-col">
+          <div class="vs-label left">110 年 (2021)</div>
+          <ul>
+            <li>選擇題：<strong style="color:var(--accent2);">26</strong> 題</li>
+            <li>非選擇題：<strong style="color:var(--accent2);">2</strong> 題</li>
+            <li>合計：28 題</li>
+          </ul>
+        </div>
+        <div class="vs-center">→</div>
+        <div class="vs-col right-col">
+          <div class="vs-label right">111~114 年 (2022~2025)</div>
+          <ul>
+            <li>選擇題：<strong style="color:var(--warn);">25</strong> 題</li>
+            <li>非選擇題：<strong style="color:var(--warn);">2</strong> 題</li>
+            <li>合計：27 題</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:1.2em; font-size:0.45em; color:#aaa; text-align:center;">
+        ⏱ 考試時間固定 <strong style="color:var(--accent);">80 分鐘</strong>（10:30~11:50）
+      </div>
+      <div style="margin-top:0.6em; font-size:0.4em; color:#888; text-align:center;">
+        可使用三角板、直尺、圓規 · 不可使用量角器
+      </div>
+    </section>
+
+    <!-- ========== Slide 3: 四大主題佔比分析 [ICON] ========== -->
+    <section>
+      <h2>四大主題佔比分析</h2>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="num" style="color:#4fc3f7;">35%</div>
+          <div class="label">幾何</div>
+          <div class="pct">佔比最重</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" style="color:#e8643a;">30%</div>
+          <div class="label">代數</div>
+          <div class="pct">穩定核心</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" style="color:#81c784;">20%</div>
+          <div class="label">數與量</div>
+          <div class="pct">基礎運算</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" style="color:#ffb74d;">15%</div>
+          <div class="label">統計與機率</div>
+          <div class="pct">逐年重視</div>
+        </div>
+      </div>
+      <div style="margin-top:1em; font-size:0.4em; color:#888; text-align:center;">
+        基於 110~114 年共 5 份試題統計 · 每份約 27~28 題
+      </div>
+    </section>
+
+    <!-- ========== Slide 4: 數與量命題趨勢 [ICON] ========== -->
+    <section>
+      <h2>數與量 — 命題趨勢</h2>
+      <div class="adv-grid">
+        <div class="adv-card fragment">
+          <div class="adv-icon">📐</div>
+          <div class="adv-title">指數運算</div>
+          <div class="adv-desc">每年必考 1~2 題<br/><span class="year-badge">110</span><span class="year-badge">111</span><span class="year-badge">112</span><span class="year-badge">113</span><span class="year-badge">114</span></div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">√</div>
+          <div class="adv-title">根號化簡</div>
+          <div class="adv-desc">110·112·113 年出現<br/><span class="year-badge">110</span><span class="year-badge">112</span><span class="year-badge">113</span></div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">🔢</div>
+          <div class="adv-title">質因數分解</div>
+          <div class="adv-desc">111 年：156 的質因數<br/><span class="year-badge">111</span></div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">🔬</div>
+          <div class="adv-title">科學記號</div>
+          <div class="adv-desc">111 年：7.52×10⁻⁶<br/><span class="year-badge">111</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Slide 5: 代數命題趨勢 [BG] ========== -->
+    <section>
+      <h2>代數 — 命題趨勢</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="ti-date">二元一次聯立方程式</div>
+          <div class="ti-text">110·113 年出現，生活情境包裝<br/><span class="year-badge">110</span><span class="year-badge">113</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="ti-date">多項式運算與因式分解</div>
+          <div class="ti-text">110~113 年均有出題<br/><span class="year-badge">110</span><span class="year-badge">111</span><span class="year-badge">112</span><span class="year-badge">113</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="ti-date">一元二次方程式（公式解）</div>
+          <div class="ti-text">111·112 年 ／ 二次函數圖形平移：110·111<br/><span class="year-badge">110</span><span class="year-badge">111</span><span class="year-badge">112</span></div>
+        </div>
+        <div class="timeline-item">
+          <div class="ti-date">等差數列 &amp; 一次函數</div>
+          <div class="ti-text">等差數列：110·112·113 ／ 一次函數：111·112<br/><span class="year-badge">110</span><span class="year-badge">111</span><span class="year-badge">112</span><span class="year-badge">113</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Slide 6: 幾何命題趨勢 [BG] ========== -->
+    <section>
+      <h2>幾何 — 每年最核心的主題</h2>
+      <div style="font-size:2em; color:var(--accent); text-align:center; font-weight:800; margin-bottom:0.4em;">佔比 35%</div>
+      <div class="adv-grid">
+        <div class="adv-card fragment">
+          <div class="adv-icon">△</div>
+          <div class="adv-title">三角形全等與相似</div>
+          <div class="adv-desc">每年必考 · 全等性質 SSS/SAS/ASA/AAS</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">▭</div>
+          <div class="adv-title">四邊形性質</div>
+          <div class="adv-desc">矩形、菱形、正方形 · 每年出現</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">○</div>
+          <div class="adv-title">圓與扇形</div>
+          <div class="adv-desc">弧長、圓心角、弦心距 · 每年出題</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">📦</div>
+          <div class="adv-title">立體圖形</div>
+          <div class="adv-desc">長方體展開圖、直角柱 · 111·112·113</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Slide 7: 統計與機率命題趨勢 [ICON] ========== -->
+    <section>
+      <h2>統計與機率 — 命題趨勢</h2>
+      <div class="col-2">
+        <div class="col-2-left">
+          <h3 style="font-size:0.6em; color:var(--warn); margin-bottom:0.6em;">📊 統計圖表判讀</h3>
+          <ul class="content-list">
+            <li>折線圖 · 直方圖 · 圓餅圖</li>
+            <li>114 年結合高齡化社會議題</li>
+            <li>每年至少 2~3 題圖表題</li>
+          </ul>
+        </div>
+        <div class="col-2-right">
+          <h3 style="font-size:0.6em; color:var(--accent); margin-bottom:0.6em;">🎲 機率計算（每年 1~2 題）</h3>
+          <ul class="content-list">
+            <li><span class="year-badge">110</span> 刮刮樂中獎機率</li>
+            <li><span class="year-badge">111</span> 撲克牌抽球機率</li>
+            <li><span class="year-badge">112</span> 盒玩抽獎機率</li>
+            <li><span class="year-badge">113</span> 紅白球抽取機率</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Slide 8: 生活情境與素養導向 [ICON] ========== -->
+    <section>
+      <h2>生活情境與素養導向</h2>
+      <div class="adv-grid">
+        <div class="adv-card fragment">
+          <div class="adv-icon">🛒</div>
+          <div class="adv-title">購物與碳足跡</div>
+          <div class="adv-desc">110 年：碳足跡標籤、蛋糕切割</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">🧪</div>
+          <div class="adv-title">科學與生物</div>
+          <div class="adv-desc">111 年：綠藻培養 ／ 112 年：疫苗效力</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">🎪</div>
+          <div class="adv-title">娛樂與生活</div>
+          <div class="adv-desc">111·112 年：撲克牌牌值／環套</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon">🎄</div>
+          <div class="adv-title">節慶與日常</div>
+          <div class="adv-desc">113 年：便利貼聖誕樹 ／ 114 年：動物園人數</div>
+        </div>
+      </div>
+      <div style="margin-top:0.8em; font-size:0.4em; color:#888; text-align:center;">
+        選擇題亦大量融入購物、租車、停車場等生活情境
+      </div>
+    </section>
+
+    <!-- ========== Slide 9: 近五年關鍵變化總結 [BG] ========== -->
+    <section>
+      <h2>近五年關鍵變化總結</h2>
+      <div class="conclusion-grid">
+        <div class="conclusion-card positive">
+          <div class="cc-title">❶ 選擇題數減少</div>
+          <ul><li>26 題 → 25 題（111 年起）</li><li>總題數從 28 降為 27</li></ul>
+        </div>
+        <div class="conclusion-card caution">
+          <div class="cc-title">❷ 素養題逐年增加</div>
+          <ul><li>文字敘述更長、情境更複雜</li><li>生活應用比例提升</li></ul>
+        </div>
+        <div class="conclusion-card success">
+          <div class="cc-title">❸ 圖表判讀受重視</div>
+          <ul><li>每年至少 3~4 題需讀圖</li><li>折線圖、直方圖、圓餅圖</li></ul>
+        </div>
+        <div class="conclusion-card positive">
+          <div class="cc-title">❹ 非選重推理過程</div>
+          <ul><li>不僅答案正確</li><li>更看重推理邏輯與書寫</li></ul>
+        </div>
+        <div class="conclusion-card caution" style="grid-column: span 2;">
+          <div class="cc-title">❺ 跨域整合趨勢</div>
+          <ul><li>數學結合社會（高齡化）、生物（綠藻培養）、生活科技</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Slide 10: 備考建議（結尾） ========== -->
+    <section data-background-color="#0d1117">
+      <div class="end-slide">
+        <div class="big">📝</div>
+        <h1 style="color:var(--accent2);">打好基礎，穩拿 A++</h1>
+        <div class="adv-grid-5" style="margin-top:0.8em;">
+          <div class="adv-card">
+            <div class="adv-icon">🎯</div>
+            <div class="adv-title">幾何＋代數</div>
+            <div class="adv-desc">佔比 65%，重中之重</div>
+          </div>
+          <div class="adv-card">
+            <div class="adv-icon">📈</div>
+            <div class="adv-title">勤練圖表判讀</div>
+            <div class="adv-desc">折線圖、直方圖、圓餅圖</div>
+          </div>
+          <div class="adv-card">
+            <div class="adv-icon">✍️</div>
+            <div class="adv-title">練習書寫過程</div>
+            <div class="adv-desc">非選題完整推理</div>
+          </div>
+          <div class="adv-card">
+            <div class="adv-icon">🌍</div>
+            <div class="adv-title">接觸生活情境</div>
+            <div class="adv-desc">文字轉數學模型</div>
+          </div>
+          <div class="adv-card">
+            <div class="adv-icon">⏱</div>
+            <div class="adv-title">計時模擬考</div>
+            <div class="adv-desc">80 分鐘 25+2 題</div>
+          </div>
+        </div>
+        <p class="tagline" style="margin-top:1.2em;">資料來源：110~114 年 CAP 國中教育會考數學科官方試題</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    center: true,
+    progress: true,
+    controls: true,
+    slideNumber: 'c/t',
+    plugins: []
+  });
+</script>
+
+</body>
+</html>
